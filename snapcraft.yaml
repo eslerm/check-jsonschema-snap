@@ -1,0 +1,27 @@
+name: check-jsonschema
+adopt-info: check-jsonschema
+summary: A tool to work with public-inbox and patch archives
+description: |
+  A JSON Schema CLI and pre-commit hook built on jsonschema. The schema may be
+  specified as a local or remote (HTTP or HTTPS) file.
+
+  Remote files are automatically downloaded and cached if possible.
+
+base: core22
+grade: stable
+confinement: strict
+
+apps:
+  check-jsonschema:
+    command: bin/check-jsonschema
+    plugs:
+      - home
+      - network
+
+parts:
+  check-jsonschema:
+    plugin: python
+    source: https://github.com/python-jsonschema/check-jsonschema.git
+    override-pull: |
+      snapcraftctl pull
+      snapcraftctl set-version "$(git describe --tags)"
